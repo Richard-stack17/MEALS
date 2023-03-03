@@ -11,7 +11,7 @@ exports.createRestaurant = catchAsync(async (req, res, next) => {
     rating,
   });
 
-  res.status(500).json({
+  res.status(200).json({
     status: 'success',
     newRestaurant,
   });
@@ -22,34 +22,39 @@ exports.getRestaurants = catchAsync(async (req, res, next) => {
     where: {
       status: true,
     },
-    include: {
-      model: Review,
-    },
+    include: [
+      {
+        model: Review,
+      },
+    ],
   });
 
-  res.status(500).json({
+  res.status(200).json({
     status: 'success',
     restaurants,
   });
 });
 
 exports.getRestaurant = catchAsync(async (req, res, next) => {
-    const restaurant = await Restaurant.findOne({
+    const {id} = req.params;
+  const restaurante = await Restaurant.findOne({
+    where: {
+      status: true,
+    },
+    include: [
+      {
+        model: Review,
         where: {
-          status: true,
+          restaurantId: id
         },
-        include: {
-            model: Review,
-            where:{
-                restaurantId: restaurant.id
-            }
-        },
-      });
-    
-      res.status(500).json({
-        status: 'success',
-        restaurant,
-      });
+      },
+    ],
+  });
+
+  res.status(200).json({
+    status: 'success',
+    restaurante,
+  });
 });
 
 exports.updateRestaurant = catchAsync(async (req, res, next) => {
@@ -61,7 +66,7 @@ exports.updateRestaurant = catchAsync(async (req, res, next) => {
     address,
   });
 
-  return res.status(500).json({
+  return res.status(200).json({
     status: 'success',
     updatedRestaurant,
   });
@@ -74,7 +79,7 @@ exports.deleteRestaurant = catchAsync(async (req, res, next) => {
     status: false,
   });
 
-  return res.status(500).json({
+  return res.status(200).json({
     status: 'success',
     deletedRestaurant,
   });

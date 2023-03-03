@@ -26,19 +26,19 @@ exports.getMeal = catchAsync(async (req,res,next) => {
 });
 
 exports.createMeal = catchAsync(async (req,res,next) => {
-    const {name, price} = req.body;
     const {restaurant} = req;
-
-    newMeal = await Meal.create({
+    const {name, price} = req.body;
+    
+    const newMeal = await Meal.create({
         name,
         price,
         restaurantId:restaurant.id,
     });
 
-    return (res.status(500).json({
+    res.status(200).json({
         status:'success',
         newMeal
-    }))
+    })
 });
 
 exports.updateMeal = catchAsync(async (req,res,next) => {

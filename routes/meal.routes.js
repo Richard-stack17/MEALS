@@ -18,9 +18,8 @@ router.post('/:id',[
     check('price', 'the price is required').not().isEmpty(),
     check('price', 'the price must be a number').isNumeric(),
     validateFields,
+   // restrictTo('admin'),
     validIfRestaurantExistsById,
-    restrictTo('admin'),
-    protectAccountOwner
 ], createMeal);
 
 

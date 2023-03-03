@@ -8,6 +8,7 @@ const { restaurantRouter } = require('../routes/restaurant.routes');
 const globalErrorHandler = require('../controllers/error.controller');
 const morgan = require('morgan');
 const AppError = require('../utils/appError');
+const initModel = require('./initmodel');
 
 
 class Server {
@@ -51,6 +52,8 @@ class Server {
         db.authenticate()
             .then(() => console.log('Database authenticated '))
             .catch(error => console.log(error));
+
+        initModel()
         
         db.sync()
             .then(() => console.log('Database synced!!!'))

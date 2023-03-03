@@ -67,7 +67,7 @@ router.post(
 router.post(
   '/reviews/:id',
   [
-    check('commnet', 'the comment is required').not().isEmpty(),
+    check('comment', 'the comment is required').not().isEmpty(),
     check('rating', 'the rating is required').not().isEmpty(),
     check('rating', 'the rating must be a number').isNumeric(),
     validateFields,
@@ -79,7 +79,7 @@ router.post(
 router.patch(
   '/reviews/restaurantId/:id',
   [
-    check('commnet', 'the comment is required').not().isEmpty(),
+    check('comment', 'the comment is required').not().isEmpty(),
     check('rating', 'the rating is required').not().isEmpty(),
     check('rating', 'the rating must be a number').isNumeric(),
     validateFields,

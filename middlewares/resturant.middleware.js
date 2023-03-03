@@ -11,6 +11,7 @@ exports.validRating = catchAsync(async (req,res,next) => {
         return next(new AppError('The number must be greater than 1 and less than 5',404))
     }
 
+    next();
 });
 
 exports.validIfRestaurantExistsById = catchAsync(async(req,res,next) => {

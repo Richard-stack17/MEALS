@@ -8,6 +8,7 @@ exports.createOrder = catchAsync(async (req,res,next) => {
   const { quantity, mealId} = req.body;
   const { sessionUser, meal} = req; //agarrar el userId
 
+  
   const totalPrice = +meal.price * +quantity;
 
   const newOrder = await Meal.create({
@@ -51,7 +52,7 @@ exports.getOrders = catchAsync(async (req,res,next) => {
         ],
     });
 
-    return (res.status(500).json({
+    return (res.status(200).json({
       status:'success',
       orders,
     }))
@@ -64,7 +65,7 @@ exports.markOrderCompleted = catchAsync(async(req,res,next) => {
     status:'completed'
   });
 
-  return(res.status(500).json({
+  return(res.status(200).json({
     status:'success',
     updatedOrder
   }))
@@ -78,7 +79,7 @@ exports.deleteOrder = catchAsync(async(req,res,next) => {
     status:'cancelled'
   });
 
-  return(res.status(500).json({
+  return(res.status(200).json({
     status:'success',
     deletedOrder
   }))
