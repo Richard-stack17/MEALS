@@ -65,7 +65,7 @@ exports.deleteMeal = catchAsync(async (req, res, next) => {
     status: false,
   });
 
-  return res.status(500).json({
+  return res.status(200).json({
     status: 'success',
     message: 'The meal was deleted successfully',
     deletedMeal,
