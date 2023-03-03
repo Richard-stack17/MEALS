@@ -59,14 +59,15 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUser = catchAsync(async (req,res,next) => {
-  const { username, email } = req.body;
+  const { name, email } = req.body;
   const { user } = req;
 
-  await user.update({ username, email });
+  const updatedUser = await user.update({ name, email });
 
   res.status(200).json({
     status: 'success',
     message: 'User updated successfully',
+    updatedUser,
   });
 });
 
@@ -108,6 +109,8 @@ exports.getUserOrders = catchAsync(async (req, res, next) => {
   });
 
   res.status(200).json({
+    status:'success',
+    message:'User Orders were found',
     orders,
   });
 });
@@ -140,6 +143,8 @@ exports.getUserOrder = catchAsync(async (req, res, next) => {
     ],
   });
   res.status(200).json({
+    status:'success',
+    message:'User Order was found',
     order,
   });
 });

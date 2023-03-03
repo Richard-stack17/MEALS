@@ -50,7 +50,6 @@ exports.protectAccountOwner = catchAsync(async (req, res, next) => {
     return next(new AppError('You do not own this account.', 401));
   }
 
-  
   next();
 });
 exports.restrictTo = (...roles) => {

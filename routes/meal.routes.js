@@ -1,43 +1,64 @@
-const {Router} = require('express');
-const {check} = require('express-validator');
-const { getMeal, createMeal, getMeals, updateMeal, deleteMeal } = require('../controllers/meals.controller');
-const { protect, protectAccountOwner, restrictTo } = require('../middlewares/auth.middleware');
-const { validMealExistsById, validIfRestaurantExistsById } = require('../middlewares/meals.middleware');
+const { Router } = require('express');
+const { check } = require('express-validator');
+const {
+  getMeal,
+  createMeal,
+  getMeals,
+  updateMeal,
+  deleteMeal,
+} = require('../controllers/meals.controller');
+const {
+  protect,
+  protectAccountOwner,
+  restrictTo,
+} = require('../middlewares/auth.middleware');
+const {
+  validMealExistsById,
+  validIfRestaurantExistsById,
+} = require('../middlewares/meals.middleware');
 const { validateFields } = require('../middlewares/validations.middleware');
 
 const router = Router();
 
 router.get('/:id', validMealExistsById, getMeal);
 
-router.get('/',getMeals);
+router.get('/', getMeals);
 
 router.use(protect);
 
-router.post('/:id',[
+router.post(
+  '/:id',
+  [
     check('name', 'the name is required').not().isEmpty(),
     check('price', 'the price is required').not().isEmpty(),
     check('price', 'the price must be a number').isNumeric(),
     validateFields,
-   // restrictTo('admin'),
+    restrictTo('admin'),
     validIfRestaurantExistsById,
-], createMeal);
+  ],
+  createMeal
+);
 
-
-
-router.patch('/:id', 
-[
+router.patch(
+  '/:id',
+  [
     check('name', 'the name is required').not().isEmpty(),
     check('price', 'the price is required').not().isEmpty(),
     check('price', 'the price must be a number').isNumeric(),
     validateFields,
     validMealExistsById,
     restrictTo('admin'),
-    protectAccountOwner
-], updateMeal);
+  ],
+  updateMeal
+);
 
-router.delete('/:id',validMealExistsById, restrictTo('admin'),protectAccountOwner,deleteMeal);
+router.delete(
+  '/:id',
+  validMealExistsById,
+  restrictTo('admin'),
+  deleteMeal
+);
 
 module.exports = {
-    mealRouter: router,
-    
-}
+  mealRouter: router,
+};

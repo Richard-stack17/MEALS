@@ -1,72 +1,73 @@
-const Meal = require("../models/meal.model");
-const catchAsync = require("../utils/catchAsync");
+const Meal = require('../models/meal.model');
+const catchAsync = require('../utils/catchAsync');
 
+exports.getMeals = catchAsync(async (req, res, next) => {
+  const meals = await Meal.findAll({
+    where: {
+      status: true,
+    },
+  });
 
-exports.getMeals = catchAsync(async(req,res,next) => {
-
-    const meals = await Meal.findAll({
-        where:{
-            status:true
-        }
-    });
-
-    return (res.status(500).json({
-        status:'success',
-        meals,
-    }))
-})
-
-exports.getMeal = catchAsync(async (req,res,next) => {
-    const {meal} = req;
-
-    return (res.status(500).json({
-        status:'success',
-        meal
-    }))
+  return res.status(200).json({
+    status: 'success',
+    message: 'Meals were found successfully',
+    meals,
+  });
 });
 
-exports.createMeal = catchAsync(async (req,res,next) => {
-    const {restaurant} = req;
-    const {name, price} = req.body;
-    
-    const newMeal = await Meal.create({
-        name,
-        price,
-        restaurantId:restaurant.id,
-    });
+exports.getMeal = catchAsync(async (req, res, next) => {
+  const { meal } = req;
 
-    res.status(200).json({
-        status:'success',
-        newMeal
-    })
+  return res.status(200).json({
+    status: 'success',
+    message: 'the meal was found successfully',
+    meal,
+  });
 });
 
-exports.updateMeal = catchAsync(async (req,res,next) => {
-    const {meal} = req;
-    const {name,price} = req.body;
+exports.createMeal = catchAsync(async (req, res, next) => {
+  const { restaurant } = req;
+  const { name, price } = req.body;
 
-    const updatedMeal = await meal.update({
-        name,
-        price
-    });
+  const newMeal = await Meal.create({
+    name,
+    price,
+    restaurantId: restaurant.id,
+  });
 
-    return (res.status(500).json({
-        status:'success',
-        updatedMeal
-    }))
-
+  res.status(200).json({
+    status: 'success',
+    message: 'The meal was created successfully',
+    newMeal,
+  });
 });
 
-exports.deleteMeal = catchAsync(async (req,res,next) => {
-    const {meal} = req;
+exports.updateMeal = catchAsync(async (req, res, next) => {
+  const { meal } = req;
+  const { name, price } = req.body;
 
-    const deletedMeal = await meal.update({
-        status: false,
-    });
+  const updatedMeal = await meal.update({
+    name,
+    price,
+  });
 
-    return (res.status(500).json({
-        status:'success',
-        deletedMeal
-    }))
+  res.status(200).json({
+    status: 'success',
+    message: 'The meal was updated succesffully',
+    updatedMeal,
+  });
+});
 
+exports.deleteMeal = catchAsync(async (req, res, next) => {
+  const { meal } = req;
+
+  const deletedMeal = await meal.update({
+    status: false,
+  });
+
+  return res.status(500).json({
+    status: 'success',
+    message: 'The meal was deleted successfully',
+    deletedMeal,
+  });
 });

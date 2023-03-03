@@ -13,6 +13,7 @@ exports.createRestaurant = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message:'The restaurant was created successfully',
     newRestaurant,
   });
 });
@@ -31,13 +32,14 @@ exports.getRestaurants = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message:'Restaurants were found',
     restaurants,
   });
 });
 
 exports.getRestaurant = catchAsync(async (req, res, next) => {
     const {id} = req.params;
-  const restaurante = await Restaurant.findOne({
+  const restaurant= await Restaurant.findOne({
     where: {
       status: true,
     },
@@ -53,7 +55,8 @@ exports.getRestaurant = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    restaurante,
+    message:'The restaurant was found',
+    restaurant,
   });
 });
 
@@ -68,6 +71,7 @@ exports.updateRestaurant = catchAsync(async (req, res, next) => {
 
   return res.status(200).json({
     status: 'success',
+    message:'The restaurant was updated successfully',
     updatedRestaurant,
   });
 });
@@ -81,6 +85,7 @@ exports.deleteRestaurant = catchAsync(async (req, res, next) => {
 
   return res.status(200).json({
     status: 'success',
+    message:'The restaurant was deleted successfully',
     deletedRestaurant,
   });
 });
@@ -98,6 +103,7 @@ exports.createReview = catchAsync(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
+    message:'The review was created successfully',
     review,
   });
 });
@@ -113,6 +119,7 @@ exports.updateReview = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message:'The review was updated successfully',
     updatedReview,
   });
 });
@@ -126,6 +133,7 @@ exports.deleteReview = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message:'The restaurant was deleted successfully',
     deletedReview,
   });
 });

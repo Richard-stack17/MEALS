@@ -18,6 +18,8 @@ exports.validMealExistsById = catchAsync(async (req, res, next) => {
   }
 
   req.meal = meal;
+
+  next();
 });
 
 exports.validIfRestaurantExistsById = catchAsync(async (req, res, next) => {
@@ -35,6 +37,6 @@ exports.validIfRestaurantExistsById = catchAsync(async (req, res, next) => {
   }
 
   req.restaurant = restaurant;
-  
+
   next();
 });

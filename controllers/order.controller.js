@@ -1,21 +1,19 @@
-const Meal = require("../models/meal.model");
-const Order = require("../models/order.model");
-const Restaurant = require("../models/restaurant.model");
-const catchAsync = require("../utils/catchAsync");
+const Meal = require('../models/meal.model');
+const Order = require('../models/order.model');
+const Restaurant = require('../models/restaurant.model');
+const catchAsync = require('../utils/catchAsync');
 
+exports.createOrder = catchAsync(async (req, res, next) => {
+  const { quantity, mealId } = req.body;
+  const { sessionUser, meal } = req; //agarrar el userId
 
-exports.createOrder = catchAsync(async (req,res,next) => {
-  const { quantity, mealId} = req.body;
-  const { sessionUser, meal} = req; //agarrar el userId
+  const totalPrice =+meal.price * +quantity;
 
-  
-  const totalPrice = +meal.price * +quantity;
-
-  const newOrder = await Meal.create({
+  const newOrder = await Order.create({
     userId: sessionUser.id,
     mealId,
     totalPrice,
-    quantity
+    quantity,
   });
 
   res.status(201).json({
@@ -25,62 +23,62 @@ exports.createOrder = catchAsync(async (req,res,next) => {
   });
 });
 
-exports.getOrders = catchAsync(async (req,res,next) => {
+exports.getOrders = catchAsync(async (req, res, next) => {
+  const { sessionUser } = req;
 
-    const {sessionUser} = req;
-
-
-    const orders = await Order.findAll({
-        where:{
-            userId: sessionUser.id,
+  const orders = await Order.findAll({
+    where: {
+      userId: sessionUser.id,
+    },
+    include: [
+      {
+        model: Meal,
+        where: {
+          status: true,
         },
         include: [
           {
-            model: Meal,
+            model: Restaurant,
             where: {
               status: true,
             },
-            include: [
-              {
-                model: Restaurant,
-                where: {
-                  status: true,
-                },
-              },
-            ],
           },
         ],
-    });
+      },
+    ],
+  });
 
-    return (res.status(200).json({
-      status:'success',
-      orders,
-    }))
+  return res.status(200).json({
+    status: 'success',
+    message: 'Orders were found successfully',
+    orders,
+  });
 });
 
-exports.markOrderCompleted = catchAsync(async(req,res,next) => {
-  const {order} = req;
+exports.markOrderCompleted = catchAsync(async (req, res, next) => {
+  const { order } = req;
 
   updatedOrder = order.update({
-    status:'completed'
+    status: 'completed',
   });
 
-  return(res.status(200).json({
-    status:'success',
-    updatedOrder
-  }))
-
+  return res.status(200).json({
+    status: 'success',
+    message: 'The order is completed now',
+    updatedOrder,
+  });
 });
 
-exports.deleteOrder = catchAsync(async(req,res,next) => {
-  const {order} = req;
+exports.deleteOrder = catchAsync(async (req, res, next) => {
+  const { order } = req;
 
-  deletedOrder=order.update({
-    status:'cancelled'
+  deletedOrder = order.update({
+    status: 'cancelled',
   });
 
-  return(res.status(200).json({
-    status:'success',
-    deletedOrder
-  }))
+  return res.status(200).json({
+    status: 'success',
+    message: 'The order is deleted now',
+    deletedOrder,
+  });
 });
