@@ -77,7 +77,7 @@ router.post(
 );
 
 router.patch(
-  '/reviews/restaurantId/:id',
+  '/reviews/:restaurantId/:id',
   [
     check('comment', 'the comment is required').not().isEmpty(),
     check('rating', 'the rating is required').not().isEmpty(),
@@ -90,7 +90,7 @@ router.patch(
   updateReview
 );
 router.delete(
-  '/reviews/restaurantId/:id',
+  '/reviews/:restaurantId/:id',
   validIfRestaurantExistsById,
   validExistReview,
   protectAccountOwner,
